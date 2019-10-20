@@ -13128,6 +13128,7 @@ div#notebook {
 <span class="kn">library</span><span class="p">(</span>qlcMatrix<span class="p">)</span>
 <span class="kn">library</span><span class="p">(</span>ggplot2<span class="p">)</span>
 <span class="kn">library</span><span class="p">(</span>scales<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>reshape<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13158,6 +13159,17 @@ The following objects are masked from ‘package:base’:
 Loading required package: Matrix
 Loading required package: slam
 Loading required package: sparsesvd
+
+Attaching package: ‘reshape’
+
+The following object is masked from ‘package:Matrix’:
+
+    expand
+
+The following object is masked from ‘package:dplyr’:
+
+    rename
+
 </pre>
 </div>
 </div>
@@ -13372,7 +13384,8 @@ caracteristicas <span class="o">=</span> caracteristicas <span class="o">%&gt;%<
         filter<span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>leasing<span class="p">))</span> <span class="o">%&gt;%</span>
             mutate<span class="p">(</span>CNPJ_<span class="o">=</span>str_pad<span class="p">(</span>CNPJ<span class="p">,</span><span class="m">14</span><span class="p">,</span>pad<span class="o">=</span><span class="s">&quot;0&quot;</span><span class="p">))</span><span class="o">%&gt;%</span>
                 mutate<span class="p">(</span>CNPJ_mascara<span class="o">=</span><span class="kp">substr</span><span class="p">(</span>CNPJ_<span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">12</span><span class="p">))</span> <span class="o">%&gt;%</span> 
-                    mutate<span class="p">(</span><span class="sb">`Data.de.Emissão`</span><span class="o">=</span><span class="kp">as.Date</span><span class="p">(</span><span class="sb">`Data.de.Emissão`</span><span class="p">,</span>format<span class="o">=</span><span class="s">&quot;%d/%m/%Y&quot;</span><span class="p">))</span>
+                    mutate<span class="p">(</span><span class="sb">`Data.de.Emissão`</span><span class="o">=</span><span class="kp">as.Date</span><span class="p">(</span><span class="sb">`Data.de.Emissão`</span><span class="p">,</span>format<span class="o">=</span><span class="s">&quot;%d/%m/%Y&quot;</span><span class="p">))</span><span class="o">%&gt;%</span> 
+                        mutate<span class="p">(</span><span class="sb">`Data.de.Vencimento`</span><span class="o">=</span><span class="kp">as.Date</span><span class="p">(</span><span class="sb">`Data.de.Vencimento`</span><span class="p">,</span>format<span class="o">=</span><span class="s">&quot;%d/%m/%Y&quot;</span><span class="p">))</span>
 
 
 caracteristicas<span class="o">$</span><span class="sb">`Percentual.Multiplicador.Rentabilidade`</span><span class="o">=</span><span class="kp">as.numeric</span><span class="p">(</span>caracteristicas<span class="o">$</span><span class="sb">`Percentual.Multiplicador.Rentabilidade`</span><span class="p">)</span>
@@ -14223,7 +14236,7 @@ deb_bndes_
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span class="c1">#Criando um data frame que contenha períodos de 12 meses, em que cada linha representa um mês distinto</span>
@@ -14255,7 +14268,7 @@ datas<span class="o">=</span><span class="kt">data.frame</span><span class="p">(
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span class="c1">#debêntures referentes a empresas que conseguiram contrair operações de crédito com o BNDES </span>
@@ -14286,7 +14299,7 @@ debentures_bndes_2_anos <span class="o">=</span> debentures_bndes_2_anos <span c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>debentures_bndes_qualquer_ano<span class="o">=</span>caracteristicas <span class="o">%&gt;%</span>
@@ -14315,7 +14328,7 @@ debentures_bndes_qualquer_ano <span class="o">=</span> debentures_bndes_qualquer
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>caracteristicas_<span class="o">=</span>caracteristicas <span class="o">%&gt;%</span>
@@ -14354,7 +14367,7 @@ Joining, by = &#34;Código.do.Ativo&#34;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>volume<span class="o">=</span>datas <span class="o">%&gt;%</span>
@@ -14373,15 +14386,16 @@ Joining, by = &#34;Código.do.Ativo&#34;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>bndes_total<span class="o">=</span>bndes_diretos <span class="o">%&gt;%</span>
     mutate<span class="p">(</span>Valor<span class="o">=</span><span class="sb">`Valor contratado  R$`</span><span class="p">)</span> <span class="o">%&gt;%</span>
-        select<span class="p">(</span><span class="sb">`Data da contratação`</span><span class="p">,</span>Valor<span class="p">)</span> <span class="o">%&gt;%</span>
+        mutate<span class="p">(</span><span class="sb">`Prazo - Amortização (meses)`</span><span class="o">=</span><span class="sb">`Prazo - amortização (meses)`</span><span class="p">)</span> <span class="o">%&gt;%</span>
+        select<span class="p">(</span><span class="sb">`Data da contratação`</span><span class="p">,</span>Valor<span class="p">,</span><span class="sb">`Custo financeiro`</span><span class="p">,</span>Juros<span class="p">,</span><span class="sb">`Prazo - Amortização (meses)`</span><span class="p">)</span> <span class="o">%&gt;%</span>
             <span class="kp">rbind</span><span class="p">(</span>bndes_indiretos <span class="o">%&gt;%</span>
     mutate<span class="p">(</span>Valor<span class="o">=</span><span class="sb">`Valor da Operação em R$`</span><span class="p">)</span> <span class="o">%&gt;%</span>
-        select<span class="p">(</span><span class="sb">`Data da contratação`</span><span class="p">,</span>Valor<span class="p">))</span>
+        select<span class="p">(</span><span class="sb">`Data da contratação`</span><span class="p">,</span>Valor<span class="p">,</span><span class="sb">`Custo financeiro`</span><span class="p">,</span>Juros<span class="p">,</span><span class="sb">`Prazo - Amortização (meses)`</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -14391,7 +14405,7 @@ Joining, by = &#34;Código.do.Ativo&#34;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>bndes_12meses<span class="o">=</span>datas <span class="o">%&gt;%</span>
@@ -14422,7 +14436,7 @@ Joining, by = &#34;Código.do.Ativo&#34;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>ggplot<span class="p">(</span>volume<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> Data<span class="p">,</span> y <span class="o">=</span> Volume<span class="p">,</span>color <span class="o">=</span> BNDES<span class="p">))</span> <span class="o">+</span>
@@ -15850,7 +15864,7 @@ gg=="
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>volume_qualquer<span class="o">=</span>datas <span class="o">%&gt;%</span>
@@ -15877,7 +15891,7 @@ gg=="
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre>ggplot<span class="p">(</span>volume_qualquer <span class="o">%&gt;%</span> mutate<span class="p">(</span>BNDES<span class="o">=</span>BNDES_qualquer<span class="p">),</span> aes<span class="p">(</span>x <span class="o">=</span> Data<span class="p">,</span> y <span class="o">=</span> Volume<span class="p">,</span>color <span class="o">=</span> BNDES<span class="p">))</span> <span class="o">+</span>
@@ -17135,6 +17149,105 @@ AAAA4AgkdgAAAAAcgcQOAAAAgCOQ2AEAAABwBBI7AAAAAI5AYgcAAADAEUjsAAAAADgCiR0A
 AAAARyCxAwAAAOAIJHYAAAAAHIHEDgAAAIAjkNgBAAAAcAQSOwAAAACOQGIHAAAAwBFI7AAA
 AAA4AokdAAAAAEcgsQMAAADgCCR2AAAAABzxfwQHrwzx/jzoAAAAAElFTkSuQmCC"
 >
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Análise das taxas de juros nas emissões de debêntures</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span class="c1">#Arquivo que compila as expectativas da Selic para os cinco próximos anos no último dia de cada ano</span>
+<span class="c1">#Foi obtido no sistema de expectativas do Banco Central - https://www3.bcb.gov.br/expectativas/publico/consulta/serieestatisticas</span>
+
+expectativa_selic<span class="o">=</span>read_excel<span class="p">(</span><span class="s">&quot;meta_selic_over.xlsx&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+    mutate<span class="p">(</span>Ano<span class="o">=</span><span class="kp">format</span><span class="p">(</span><span class="kp">as.Date</span><span class="p">(</span>Ano<span class="p">,</span><span class="s">&quot;%d/%m/%Y&quot;</span><span class="p">),</span><span class="s">&quot;%Y&quot;</span><span class="p">))</span> <span class="o">%&gt;%</span>
+        mutate<span class="p">(</span>Selic_media<span class="o">=</span>Média<span class="p">)</span> <span class="o">%&gt;%</span>
+        select<span class="p">(</span>Ano<span class="p">,</span>Selic_media<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre>taxas<span class="o">=</span>caracteristicas_ <span class="o">%&gt;%</span>
+    mutate<span class="p">(</span>Ano<span class="o">=</span><span class="kp">format</span><span class="p">(</span><span class="sb">`Data.de.Emissão`</span><span class="p">,</span><span class="s">&quot;%Y&quot;</span><span class="p">))</span> <span class="o">%&gt;%</span>
+        mutate<span class="p">(</span>Prazo<span class="o">=</span><span class="sb">`Data.de.Vencimento`</span><span class="o">-</span><span class="sb">`Data.de.Emissão`</span><span class="p">)</span> <span class="o">%&gt;%</span>
+            filter<span class="p">(</span>Prazo<span class="o">&lt;</span><span class="m">365</span><span class="o">*</span><span class="m">100</span><span class="p">)</span> <span class="o">%&gt;%</span>                
+                    filter <span class="p">(</span><span class="sb">`Data.de.Emissão`</span><span class="o">&gt;=</span><span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2010-01-01&quot;</span><span class="p">))</span> <span class="o">%&gt;%</span>
+                        filter<span class="p">(</span>Índice<span class="o">==</span><span class="s">&quot;DI&quot;</span><span class="p">,</span><span class="sb">`Juros.Critério.Novo...Taxa`</span><span class="o">==</span><span class="s">&quot;&quot;</span><span class="o">|</span><span class="sb">`Juros.Critério.Novo...Taxa`</span><span class="o">==</span><span class="m">0</span><span class="p">)</span> <span class="o">%&gt;%</span>
+                            group_by<span class="p">(</span>Ano<span class="p">)</span> <span class="o">%&gt;%</span>
+                                summarise<span class="p">(</span>Multiplicador<span class="o">=</span><span class="kp">mean</span><span class="p">(</span><span class="sb">`Percentual.Multiplicador.Rentabilidade`</span><span class="p">,</span>na.rm<span class="o">=</span><span class="kc">TRUE</span><span class="p">),</span>Prazo<span class="o">=</span><span class="kp">mean</span><span class="p">(</span>Prazo<span class="p">,</span>na.rm<span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span> 
+
+taxas<span class="o">=</span><span class="kt">data.frame</span><span class="p">(</span>taxas<span class="p">)</span>
+
+taxas <span class="o">%&gt;%</span>
+    inner_join<span class="p">(</span>expectativa_selic<span class="p">)</span> <span class="o">%&gt;%</span>
+        mutate<span class="p">(</span>Taxa_media<span class="o">=</span>Multiplicador<span class="o">*</span>Selic_media<span class="o">/</span><span class="m">100</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Warning message:
+“Grouping rowwise data frame strips rowwise nature”Joining, by = &#34;Ano&#34;
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope=col>Ano</th><th scope=col>Multiplicador</th><th scope=col>Prazo</th><th scope=col>Selic_media</th><th scope=col>Taxa_media</th></tr></thead>
+<tbody>
+	<tr><td>2010         </td><td>112.9906     </td><td>1847.353 days</td><td>10.400       </td><td>11.751026    </td></tr>
+	<tr><td>2011         </td><td>110.5983     </td><td>2007.871 days</td><td> 9.876       </td><td>10.922691    </td></tr>
+	<tr><td>2012         </td><td>110.8548     </td><td>3732.702 days</td><td> 8.076       </td><td> 8.952636    </td></tr>
+	<tr><td>2013         </td><td>109.7558     </td><td>1893.989 days</td><td>10.300       </td><td>11.304846    </td></tr>
+	<tr><td>2014         </td><td>109.5521     </td><td>1850.963 days</td><td>10.800       </td><td>11.831627    </td></tr>
+	<tr><td>2015         </td><td>110.1473     </td><td>1814.299 days</td><td>11.926       </td><td>13.136169    </td></tr>
+	<tr><td>2016         </td><td>115.6609     </td><td>1588.378 days</td><td> 9.500       </td><td>10.987781    </td></tr>
+	<tr><td>2017         </td><td>112.0489     </td><td>1438.076 days</td><td> 7.800       </td><td> 8.739811    </td></tr>
+	<tr><td>2018         </td><td>110.2661     </td><td>1866.901 days</td><td> 7.826       </td><td> 8.629424    </td></tr>
+	<tr><td>2019         </td><td>109.7372     </td><td>1931.827 days</td><td> 6.000       </td><td> 6.584232    </td></tr>
+</tbody>
+</table>
+
 </div>
 
 </div>
